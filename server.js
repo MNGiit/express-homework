@@ -12,6 +12,15 @@ app.get('/', function(req, res) {
     res.render('index.ejs');
 })
 
+// Greetings
+app.get('/greetings', function(req, res) {
+    res.send("Hello person without a name");
+})
+// Greetings with name
+app.get('/greetings/:name', function(req, res) {
+    res.send("Hello " + req.params.name);
+})
+
 // Listen
 app.listen(3000, () => {
     console.log('listening port 3000');
