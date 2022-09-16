@@ -7,9 +7,15 @@ const app = express();
 // Set View Engine to ejs
 app.set('view engine', 'ejs');
 
+// - On the home page (`get "/"`), users should see:
+//   - "99 Bottles of beer on the wall"
+//   - a link that says "take one down, pass it around"
+//   - this should link to `/98`, where the number represents the number of bottles left.
+
 // Root
 app.get('/', function(req, res) {
-    res.render('index.ejs');
+    // res.render('index.ejs');
+    res.send(`99 bottles of beer on the wall <a href=/98>take one down, pass it around</a>`)
 })
 
 // Greetings
@@ -33,6 +39,17 @@ app.get('/magic/:message', function(req, res) {
     res.send(`<h1>${req.params.message}</h1><h1>${magic8Ball[random]}</h1>`);
 })
 
+app.get('/:number_of_bottles', function(req, res) {
+    let num = req.params.number_of_bottles;
+    // console.log(num);
+    // res.send(num)
+    if(num > 0) {
+        res.send(`${num} bottles of beer on the wall, <a href=/${num-1}>take one down, pass it around</a>`)
+    }
+    else {
+        res.send(`0 bottles of beer on the wall...<a href=/>start over</a>`)
+    }
+})
 
 // Listen
 app.listen(3000, () => {
