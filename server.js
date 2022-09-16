@@ -7,11 +7,6 @@ const app = express();
 // Set View Engine to ejs
 app.set('view engine', 'ejs');
 
-// - On the home page (`get "/"`), users should see:
-//   - "99 Bottles of beer on the wall"
-//   - a link that says "take one down, pass it around"
-//   - this should link to `/98`, where the number represents the number of bottles left.
-
 // Root
 app.get('/', function(req, res) {
     // res.render('index.ejs');
@@ -37,6 +32,52 @@ app.get('/magic/:message', function(req, res) {
     let magic8Ball = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely","You may rely on it", "As I see it yes", "Most likely", "Outlook good","Yes", "Signs point to yes", "Reply hazy try again", "Ask again later","Better not tell you now", "Cannot predict now", "Concentrate and ask again","Don't count on it", "My reply is no", "My sources say no","Outlook not so good", "Very doubtful"]
     let random= Math.floor(Math.random() * magic8Ball.length);
     res.send(`<h1>${req.params.message}</h1><h1>${magic8Ball[random]}</h1>`);
+})
+
+
+// Hungry for more?
+// Fibonacci
+// Back in your main app:
+
+// Add Fibonnaci as a comment in your application.
+
+// Create a route 'fibonacci'
+
+// This route will take one param, the number we will operate on.
+
+// If the number param is not a fibonacci number (Links to an external site.), print out "I can tell this is not a fibonacci number."
+
+// If the number is a Fibonacci number print out "Very good. It is Fibonacci."
+
+app.get('/fibonacci/:fibonacci_number', function(req, res) {
+    const fibonacci = (check, count = 1, last = 0) => {
+        if(check === 0 || check === 1) {return true;}
+        // let count = 2;
+        // let prev = 1;
+        // let temp = 0;
+        // while(count <= check) {
+        //     if((count + prev) === check) {return true;}
+        //     temp = prev;
+        //     prev = count;
+        //     count += temp;
+        // }
+        // return false;
+        if(count < check) {
+            return fibonacci(check, count + last, count);
+        }
+        if(count === check) {
+            return true;
+        }
+        return false;
+    }
+
+    if(fibonacci(Number(req.params.fibonacci_number))) {
+        res.send(`this is a fibonacci number`);
+    }
+    else {
+        // res.send(`not a fibonacci number, number is Number.isInteger(${Number.isInteger(req.params.fibonacci_number)})`);
+        res.send("not a fibonacci number");
+    }
 })
 
 app.get('/:number_of_bottles', function(req, res) {
